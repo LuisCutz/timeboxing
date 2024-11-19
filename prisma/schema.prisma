@@ -15,31 +15,36 @@ datasource db {
 
 model User {
   id         Int      @id @default(autoincrement())
-  nombre     String   @db.VarChar(45)
-  email      String   @unique @db.VarChar(45)
-  password   String   @db.VarChar(45)
-  tasks      Task[]
+  name       String
+  email      String
+  password   String
+  start_time String
+  end_time   String
+  status     Int
+  task       Task[]
 }
 
 model Task {
-  id          Int      @id @default(autoincrement())
-  title       String   @db.VarChar(45)
-  priority    String   @db.VarChar(45)
-  description String   @db.VarChar(100)
-  status      Boolean
-  userId      Int
-  user        User     @relation(fields: [userId], references: [id])
-  activities  Activity[]
+  id Int      @id @default(autoincrement())
+  title String
+  priority priority @default(DUMP)
+  description String
+  status Int
+  user User @relation(fields: [user_id], references: [id])
+  user_id Int
+  activity Activity[]
 }
 
 model Activity {
-  id          Int      @id @default(autoincrement())
-  title       String   @db.VarChar(45)
-  startTime   DateTime @map("start_time")
-  endTime     DateTime @map("end_time")
-  status      Boolean
-  date        DateTime
-  description String   @db.VarChar(100)
-  taskId      Int
-  task Task    @relation(fields: [taskId], references: [id])
+  id Int      @id @default(autoincrement())
+  title String
+  description String
+  status Int
+  task Task @relation(fields: [task_id], references: [id])
+  task_id Int
+}
+
+enum priority {
+  TOP
+  DUMP
 }
