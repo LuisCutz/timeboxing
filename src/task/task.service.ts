@@ -30,7 +30,9 @@ export class TaskService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} task`;
+    return this.prisma.task.findUnique({
+      where: {id}
+    });
   }
 
   update(id: number, updateTaskDto: UpdateTaskDto) {
